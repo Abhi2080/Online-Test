@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <script type="text/javascript"> 
+        window.history.forward(); 
+        function noBack() { 
+            window.history.forward(); 
+        } 
+    </script> 
+</head>
+<body onload="startTime()">
+<div class="row">
+<div class="col">
+  <h1 class="jumbotron text-center" id="txt"> </h1>
+</div>
+<!-- <div class="col">
+  <h1 class="jumbotron text-center" id="txt2"></h1>
+</div> -->
+</div>
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-9 ">
+                <div class="card">
+                <h5 class="card-header">Question &nbsp;<%= question.qno %></h5>
+                <div class="card-body">
+                    <p class="card-text"><%= question.question %></p>
+
+                </div>
+                <div class="ml-3 mb-3">
+                <div class="custom-control custom-checkbox" >
+                    <input type="checkbox" class="custom-control-input" id="customCheck1">
+                    <label class="custom-control-label" for="customCheck1"><%= question.option[0] %></label>
+                  </div>
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="customCheck2">
+                    <label class="custom-control-label" for="customCheck2"><%= question.option[1] %></label>
+                  </div>
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="customCheck3">
+                    <label class="custom-control-label" for="customCheck3"><%= question.option[2] %></label>
+                  </div>
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="customCheck4">
+                    <label class="custom-control-label" for="customCheck4"><%= question.option[3] %></label>
+                  </div>
+                </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg btn-block mt-3" onclick="Pre()">Previous</button>
+                <!-- <form action="/?id=<%= userId %>&pid=<%= question.paperId %>&qno=<%= question.qno %>" method="post"> -->
+                <button type="submit" class="btn btn-primary btn-lg btn-block mt-3" onclick="save()">Save and Next</button>
+              <!-- </form> -->
+            </div>
+         
+            <div class="col-3">
+                <div class="container text-center">
+                <div class="row row-cols-3">
+            <%  for( i=1 ; i<= nof ; i++){   %>
+              <%    if (i < 10) {i = "0" + i};   %>
+                <div class="col" id="<%= i %>"><button type="button" onclick="color(this.innerHTML)"class="btn btn-lg btn-outline-dark ques mb-4"><%= i %></button></div>
+                <%  }  %>
+
+              
+                </div>
+
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+      <button type="button" class="btn btn-primary btn-lg btn-block"  onclick="submit()">Submit Your Test</button>
+    </div>
+
+<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+    <script src="/js/test.js"></script>
+    <script>
+         function color(n){
+          n = n*1; 
+          location.href = `http://127.0.0.1:8000/?id=<%= userId %>&pid=<%= question.paperId %>&qno=${n}`
+          console.log(n);
+         
+         }
+/////////////////////////auto check box on basis of saved responses
+
+
+////////////////////////////////////////////////////////////////timer//////////////////////////////////////////////////////
+
+
+
+
+
+
+
+        //  function auto(){
+          ansA = '<%= response[0] %>'
+          ansB = '<%= response[1] %>'
+          ansC = '<%= response[2] %>'
+          ansD = '<%= response[3] %>'
+          ansA = ansA * 1;
+          ansB = ansB * 1;
+          ansC = ansC * 1;
+          ansD = ansD * 1;
+          if(ansA === 1){
+            document.getElementById('customCheck1').checked = true
+          }else{
+            document.getElementById('customCheck1').checked = false
+          }
+          if(ansB === 1){
+            document.getElementById('customCheck2').checked = true
+          }else{
+            document.getElementById('customCheck2').checked = false
+          }
+          if(ansC === 1){
+            document.getElementById('customCheck3').checked = true
+          }else{
+            document.getElementById('customCheck3').checked = false
+          }
+          if(ansD === 1){
+            document.getElementById('customCheck4').checked = true
+          }else{
+            document.getElementById('customCheck4').checked = false
+          }
+        // }
+   //////////////////////next question     ////////////and save the response  
+         function save(){
+          if(document.getElementById('customCheck1').checked ){
+            ansA = 1
+          }else{
+            ansA=0
+          }
+          if(document.getElementById('customCheck2').checked ){
+            ansB = 1
+          }else{
+            ansB=0
+          }
+          if(document.getElementById('customCheck3').checked ){
+            ansC = 1
+          }else{
+            ansC=0
+          }
+          if(document.getElementById('customCheck4').checked ){
+            ansD = 1
+          }else{
+            ansD=0
+          }
+          fetch(`http://127.0.0.1:8000/?id=<%= userId %>&pid=<%= question.paperId %>&qno=<%= question.qno %>&A=${ansA}&B=${ansB}&C=${ansC}&D=${ansD}`, {
+             method: 'POST'
+              })
+              var nof = '<%= nof %>'
+              var no = '<%= question.qno %>' ;
+              no = no *1;
+              nof = nof * 1;
+          if( no <= nof-1 ){
+              no = no + 1
+            location.href = `http://127.0.0.1:8000/?id=<%= userId %>&pid=<%= question.paperId %>&qno=${no}`
+          }
+          else{
+            // no = 1;
+            location.href = `http://127.0.0.1:8000/?id=<%= userId %>&pid=<%= question.paperId %>&qno=1`
+          }
+         }
+
+  
+    
+
+  ////////////////previous question
+         function Pre(){
+              var nof = '<%= nof %>'
+              var no = '<%= question.qno %>'
+              if( no!=1 ){
+                no = no - 1;
+                location.href = `http://127.0.0.1:8000/?id=<%= userId %>&pid=<%= question.paperId %>&qno=${no}`
+              }else{
+                location.href = `http://127.0.0.1:8000/?id=<%= userId %>&pid=<%= question.paperId %>&qno=5`
+              }
+         }
+///////////////////finally submitting the responses
+         function submit(){
+          location.href = `http://127.0.0.1:8000/result/?id=<%= userId %>&pid=<%= question.paperId %>`
+        }
+
+    </script>
+  
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+</body>
+</html>
