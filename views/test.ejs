@@ -81,7 +81,7 @@
     <script>
          function color(n){
           n = n*1; 
-          location.href = `http://127.0.0.1:8000/?id=<%= userId %>&pid=<%= question.paperId %>&qno=${n}`
+          location.href = `/?id=<%= userId %>&pid=<%= question.paperId %>&qno=${n}`
           console.log(n);
          
          }
@@ -148,7 +148,7 @@
           }else{
             ansD=0
           }
-          fetch(`http://127.0.0.1:8000/?id=<%= userId %>&pid=<%= question.paperId %>&qno=<%= question.qno %>&A=${ansA}&B=${ansB}&C=${ansC}&D=${ansD}`, {
+          fetch(`/?id=<%= userId %>&pid=<%= question.paperId %>&qno=<%= question.qno %>&A=${ansA}&B=${ansB}&C=${ansC}&D=${ansD}`, {
              method: 'POST'
               })
               var nof = '<%= nof %>'
@@ -157,11 +157,11 @@
               nof = nof * 1;
           if( no <= nof-1 ){
               no = no + 1
-            location.href = `http://127.0.0.1:8000/?id=<%= userId %>&pid=<%= question.paperId %>&qno=${no}`
+            location.href = `/?id=<%= userId %>&pid=<%= question.paperId %>&qno=${no}`
           }
           else{
             // no = 1;
-            location.href = `http://127.0.0.1:8000/?id=<%= userId %>&pid=<%= question.paperId %>&qno=1`
+            location.href = `/?id=<%= userId %>&pid=<%= question.paperId %>&qno=1`
           }
          }
 
@@ -174,14 +174,14 @@
               var no = '<%= question.qno %>'
               if( no!=1 ){
                 no = no - 1;
-                location.href = `http://127.0.0.1:8000/?id=<%= userId %>&pid=<%= question.paperId %>&qno=${no}`
+                location.href = `/?id=<%= userId %>&pid=<%= question.paperId %>&qno=${no}`
               }else{
-                location.href = `http://127.0.0.1:8000/?id=<%= userId %>&pid=<%= question.paperId %>&qno=5`
+                location.href = `/?id=<%= userId %>&pid=<%= question.paperId %>&qno=5`
               }
          }
 ///////////////////finally submitting the responses
          function submit(){
-          location.href = `http://127.0.0.1:8000/result/?id=<%= userId %>&pid=<%= question.paperId %>`
+          location.href = `/result/?id=<%= userId %>&pid=<%= question.paperId %>`
         }
 
     </script>

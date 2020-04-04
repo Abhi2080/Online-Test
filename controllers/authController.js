@@ -91,7 +91,7 @@ exports.isLoggedIn = async function(req,res,next){
   res.locals.user = currentUser;
   return next();
  }catch(err){
-   console.log(err);
+  //  console.log(err);
    res.render('error')
  }
 }else{

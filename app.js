@@ -1,11 +1,15 @@
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 
 const viewRouter = require('./routes/viewRoutes');
 const userRouter = require('./routes/userRoutes');
 const questionRouter = require('./routes/questionRoutes');
 const app = express();
+
+
+app.use(compression());
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));

@@ -25,7 +25,7 @@ exports.getQuestionPage =async function(req,res,next){
 }
 
 exports.getResultPage = async function(req,res,next){
-    console.log(res.locals.toPass)
+    // console.log(res.locals.toPass)
     res.render('result', {toPass : res.locals.toPass})
 }
 
