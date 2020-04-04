@@ -108,11 +108,12 @@ exports.timeVerificationEnd = async function(req,res,next){
     var questionEndTime = questionTimeSeconds + 3600000;
 
     var timeNow = Date.now();
+    next();
 
-    if(timeNow <= questionEndTime){
-        next();
-    }else{
-        res.render('endTestError')
-    }
+//     if(timeNow <= questionEndTime){
+//         next();
+//     }else{
+//         res.render('endTestError')
+//     }
 }
 
