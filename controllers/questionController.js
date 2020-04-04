@@ -80,12 +80,12 @@ exports.timeVerificationStart = async function(req, res ,next){
     
 
     var timeNow = Date.now();
-    
-    if(timeNow < questionTimeSeconds ){
-        res.render('timeError')
-    }else{
-        next();
-    }
+    next();
+    // if(timeNow < questionTimeSeconds ){
+    //     res.render('timeError')
+    // }else{
+    //     next();
+    // }
 
 
 }
