@@ -10,6 +10,7 @@ exports.createQuestion  = async function(req,res,next){
     name = req.body.name;
     description = req.body.description;
     paperId = req.params.qno;
+    paperID = paperId *1;
     testDate = req.body.testDate;
     testTime = req.body.testTime;
     
@@ -17,7 +18,7 @@ exports.createQuestion  = async function(req,res,next){
         name : req.body.name,
         nof : req.body.nof,
     description : req.body.description,
-    paperId : req.params.qno,
+    paperId : paperID,
     testDate : req.body.testDate,
     testTime : req.body.testTime
     })
@@ -28,12 +29,14 @@ exports.createQuestion  = async function(req,res,next){
 }
 
 exports.createPaper = async function (req,res,next){
+    qno = req.params.qno *1;
+    pno = req.params.pno *1;
     await paper.create({
-        paperId : req.params.qno,
+        paperId : qno,
         question : req.body.question,
         option : req.body.option,
         answer : req.body.answer,
-        qno : req.params.pno
+        qno : pno
     })
     next();
 }
