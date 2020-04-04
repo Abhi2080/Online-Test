@@ -9,20 +9,23 @@ exports.saveResponses = async function(req, res , next){
     B = req.query.B * 1
     C = req.query.C * 1
     D = req.query.D * 1
+    
+    PID = req.query.pid *1;
+    QNO = req.query.qno *1;
     const newUser = await user.findById(req.query.id)
 
-    const oldResponse = await response.find({ paperId : req.query.pid, qno : req.query.qno, studentId : req.query.id});
+    const oldResponse = await response.find({ paperId : PID, qno : QNO, studentId : req.query.id});
 
     if(oldResponse.length === 0){
         const newResponse = await response.create({
-            paperId : req.query.pid,
-            qno : req.query.qno,
+            paperId : PID,
+            qno : QNO,
             rollNo : newUser.rollNo,
             response : [A, B ,C ,D],
             studentId : req.query.id
         })
     }else{
-        const newResponse = await response.updateOne({paperId : req.query.pid , qno : req.query.qno ,studentId : req.query.id},{response : [A, B ,C ,D]} )
+        const newResponse = await response.updateOne({paperId : PID , qno : QNO ,studentId : req.query.id},{response : [A, B ,C ,D]} )
     }
     res.end();
 }
@@ -30,8 +33,8 @@ exports.saveResponses = async function(req, res , next){
 
 
 exports.getScore = async function(req,res,next){
-    pid = req.query.pid;
-    qno = req.query.qno;
+    pid = req.query.pid * 1;
+    qno = req.query.qno *1 ;
     const newUser = await user.findById(req.query.id);
     const newQuestion = await question.findOne({paperId : pid});
     
@@ -41,7 +44,7 @@ exports.getScore = async function(req,res,next){
     
     for(i=1;i<=numberOfQuestion; i++ ){
         var score = 0;
-        var answerOfEachQuestion = await paper.findOne({paperId : req.query.pid, qno : i},{ answer : true , _id : false}).select('answer')
+        var answerOfEachQuestion = await paper.findOne({paperId : pid, qno : i},{ answer : true , _id : false}).select('answer')
         answerOfEachQuestion = answerOfEachQuestion.answer;
         if( answerOfEachQuestion.includes("A") ){
             ansA = 1
@@ -56,7 +59,7 @@ exports.getScore = async function(req,res,next){
             ansD = 1
         }else{ ansD =0}
         
-        var studentResponse = await response.findOne({paperId : req.query.pid, qno : i , studentId : req.query.id}, {response : true, _id:false});
+        var studentResponse = await response.findOne({paperId : pid, qno : i , studentId : req.query.id}, {response : true, _id:false});
         if(studentResponse === null || studentResponse === undefined){
             score = 0
         }else{
