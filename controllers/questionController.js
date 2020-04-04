@@ -64,7 +64,7 @@ exports.getPaper = async function(req,res,next){
 
 
 exports.timeVerificationStart = async function(req, res ,next){
-    pid = req.query.pid *1 ;
+    pid = req.query.pid * 1 ;
     const newQuestion = await question.findOne({ paperId : pid});
 
     var re = newQuestion.testDate.split('/');
@@ -108,7 +108,7 @@ exports.timeVerificationEnd = async function(req,res,next){
     var questionEndTime = questionTimeSeconds + 3600000;
 
     var timeNow = Date.now();
-    next;
+    next();
 
     // if(timeNow <= questionEndTime){
     //     next();
