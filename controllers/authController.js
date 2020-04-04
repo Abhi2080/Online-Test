@@ -12,7 +12,7 @@ const signToken = id => {
   
 
 
-const createSendToken = (user, statusCode, res) => {
+const createSendToken = (user, statusCode,req, res) => {
   
     const token = signToken(user._id);
 
@@ -49,7 +49,7 @@ exports.signup = async(req,res,next) =>{
         passwordConfirm : req.body.passwordConfirm
     })
 
-    createSendToken(newUser, 201, res);
+    createSendToken(newUser, 201,req, res);
     next();
 }
 
@@ -72,7 +72,7 @@ exports.login = async (req, res, next) => {
     }
   
     // 3) If everything ok, send token to client
-    createSendToken(user, 200, res);
+    createSendToken(user, 200,req, res);
     
     next();
 };
